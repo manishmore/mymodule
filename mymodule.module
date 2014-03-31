@@ -43,39 +43,6 @@ function mymodule_menu() {
 <a href='#' onclick='toggle_visibility_div3('foo2');' id='link2'>Click here to toggle visibility of element #foo</a><div id='foo2' style='display: none;'>This is foo NO 2</div></div>";
             return theme_item_list($vars);
         }
-   /*
-     *
-     * validate form in civicrm
-   */
 
-function mymodule_civicrm_validateForm( $formName, &$fields, &$files, &$form, &$errors ) {
-
-    if( $formName == 'CRM_Number_Form_InNumber' ) {
-
-      $externalID = CRM_Utils_Array::value( 'in', $fields );
-     
-      if(!ctype_alpha($externalID['0'])) {
-         //throw an Exception...
-         $errors['in'] = ts('IN Numbers first two letters should be characters');
-
-        }elseif (!ctype_alpha($externalID['1'])){
-
-            $errors['in'] = ts('IN Numbers second letters should be characters not any number');
-
-        }elseif(isset($externalID['8'])){
-
-          if(!ctype_alpha($externalID['8'])){
-
-          $errors['in'] = ts('IN Numbers nineth letters should be characters not any number');
-          }
-        }
-           if( ! $externalID ) {
-              $errors['in'] = ts( 'IN Number is a required field' );
-
-           }
-        }
-
-    return ;
-  }
 
 ?>
