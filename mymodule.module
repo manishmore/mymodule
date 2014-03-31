@@ -25,26 +25,6 @@ function mymodule_menu() {
      );
     return $items;
    }
-
-      /**
-       * Set a default value for an event price set field.
-       */
-      function mymodule_civicrm_buildForm($formName, &$form)
-      {
-        $form_test = $form->assign('intro_text', ts('hello world'));
-
-        //var_dump($form_test);
-         if( $formName == 'CRM_Number_Form_InNumber' )
-         {
-           //echo "Text Feild";
-         }
-          if ($formName == 'CRM_Event_Form_Registration_Register') {
-          if ($form->getAction() == CRM_Core_Action::ADD) {
-            $defaults['price_3'] = '710';
-            $form->setDefaults($defaults);
-          }
-        }
-      }
         /*
         *menu url call back Url hello_world
         *
@@ -58,7 +38,7 @@ function mymodule_menu() {
             $vars['type'] ="ul";
             $vars['title'] = "";
             $vars['attributes'] = array("");
-            $vars['items'][0]="<div id='leftCol'><div class='collapseLeft'>Show_2</div><div class='expandLeft'style='display:none' >TEsting Hidde _1</div></div><div id='rightCol'><div class='collapseRight'>Show2</div><div class='expandRight'>Testing Hidde _2</div></div>";
+            $vars['items'][0]="<div id='leftCol'><div class='collapseLeft'>Show_2</div><br/><div class='expandLeft'style='display:none' >TEsting Hidde _1</div></div><div id='rightCol'><div class='collapseRight'>Show2</div><div class='expandRight'>Testing Hidde _2</div></div>";
             $vars['items'][1] = "<div id='leftCol'><a href='#' id='link' onclick='toggle_visibility('foo');' >Click here to toggle visibility of element #foo</a><div id='foo' style='display: none;'>This is foo</div></div><br/><div id='rightCol'><a href='#' onclick='toggle_visibility_div2('foo1');' id='link1'>Click here to toggle visibility of element #foo</a><div id='foo1' style='display: none;'>This is foo NO 2</div></div><br/><div id='Colast'>
 <a href='#' onclick='toggle_visibility_div3('foo2');' id='link2'>Click here to toggle visibility of element #foo</a><div id='foo2' style='display: none;'>This is foo NO 2</div></div>";
             return theme_item_list($vars);
@@ -70,30 +50,11 @@ function mymodule_menu() {
 
 function mymodule_civicrm_validateForm( $formName, &$fields, &$files, &$form, &$errors ) {
 
-    /*sample implementation*/
-
-    if( $formName == 'CRM_Mypage_Form_MyForm' ) {
-
-     /*
-      if(empty($fields['favorite_color'])){
-
-        echo "sds44";
-
-       }
-      */
-       // return true;
-    }
-
     if( $formName == 'CRM_Number_Form_InNumber' ) {
 
-        $externalID = CRM_Utils_Array::value( 'in', $fields );
-        //var_dump($externalID['0']);
-        //die('dfd565');
-        //ctype_digit
-        /*
-        for the characters validation
-        */
-     if(!ctype_alpha($externalID['0'])) {
+      $externalID = CRM_Utils_Array::value( 'in', $fields );
+     
+      if(!ctype_alpha($externalID['0'])) {
          //throw an Exception...
          $errors['in'] = ts('IN Numbers first two letters should be characters');
 
@@ -108,14 +69,6 @@ function mymodule_civicrm_validateForm( $formName, &$fields, &$files, &$form, &$
           $errors['in'] = ts('IN Numbers nineth letters should be characters not any number');
           }
         }
-
-        /*
-        end here.
-        */
-       /*
-        for( $i =2 ,$i<=8 $i++ ){
-          $externalID["$i"];
-        }*/
            if( ! $externalID ) {
               $errors['in'] = ts( 'IN Number is a required field' );
 
@@ -125,181 +78,4 @@ function mymodule_civicrm_validateForm( $formName, &$fields, &$files, &$form, &$
     return ;
   }
 
- /*
- *
- *Post Process Hook for the form submit call in civicrm
- *
- */
-    function mymodule_civicrm_postProcess( $formName ,&$fields) {
-
-       if( $formName == 'CRM_Mypage_Form_MyForm' ) {
-
-       /*   $userID   = $formName->getVar( '_id' );*/
-
-        /*
-         var_dump($userID);
-        */
-            //var_dump($fields);
-        // echo var_dump($formName);
-
-        //die('dsf44');
-
-       }
-
-
-      if( $formName == 'CRM_Number_Form_InNumber' ) {
-
-         $inID = $fields->getVar('_submitValues');
-
-         $in = $fields->getElement('in')->getValue();
-
-         $entity_id = $fields->getElement('entity_id')->getValue();
-
-
-         $query = "INSERT INTO training_ni ( inno,entity_id  ) VALUES ( '$in','$entity_id' )";
-
-          /*
-            executeQuery for ni table as ut work for storing new data into table
-          */
-
-           CRM_Core_DAO::executeQuery( $query );
-
-         }
-
-          return;
-      }
-
-          /*
-          *civicrm_post for storing data into database
-          */
-
-  function mymodule_civicrm_post($op, $objectName, $objectId, &$objectRef)
-   {
-
-
-
-
-    }
-
-    /*
-    *
-    * CRM_Mypage_Page_Tabset
-    */
-
-
-  function validate_innubers( $ninumbers )
-  {
-    switch ($i) {
-    case 0:
-        echo "i equals 0";
-        break;
-    case 1:
-        echo "i equals 1";
-        break;
-
-       }
-  }
-
-  /*
-  *
-  *
-  */
-
-/*
-function mymodule_civicrm_custom( $formName, $op, $groupID, $entityID, &$params ) {
-
- if($formName = "CRM_Mypage_Form_Tabs"){
-
-      if ( $op != 'create' && $op != 'edit' ) {
-
-          return;
-       }
-
-     if ($groupID == 1) {
-
-        $needs_update = false;
-        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                      $groupID,
-                                                      'table_name' );
-
-
-        $sql = "SELECT member_id_4 FROM $tableName WHERE entity_id = $entityID";
-        $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-
-        if (! $dao->fetch()) {
-
-            $needs_update = true;
-
-        }
-
-        // Value may also be empty. i.e. delete the value in the interface to reset the field.
-        if (! $dao->member_id_4) {
-
-            $needs_update = true;
-
-        }
-
-        if ($needs_update) {
-
-                $member_id = date('Y') . sprintf('%07d', $entityID);
-
-                $sql = "UPDATE $tableName SET member_id_4 = $member_id WHERE entity_id = $entityID";
-                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
-
-          }
-      }
-
-    }
-  }*/
-
-/*
-function mymodule_civicrm_tabs( $tabs ) {
-
-
-
-    var_dump($tabs);
-
-     die('sds55');
-
-    // unset the contribition tab, i.e. remove it from the page
-    unset( $tabs[1] );
-
-    // let's add a new "contribution" tab with a different name and put it last
-    // this is just a demo, in the real world, you would create a url which would
-    // return an html snippet etc.
-       $url = CRM_Utils_System::url( 'civicrm/contact/view/contribution',
-                                  "reset=1&snippet=1&force=1&cid=$contactID" );
-
-
-         die('dsf4545');
-
-       $tabs[] = array( 'id'    => 'mySupercoolTab',
-                     'url'   => $url,
-                     'title' => 'Contribution Tab Renamed',
-                     'weight' => 300 );
-
-       }*/
-
-    //}
-/*
-function monkey_civicrm_buildForm($fname, &$form) {
-
-  // Display discount textfield for offline membership/events
-
-  $display_forms = array('CRM_Event_Form_Participant');
-
-  // NOTE the change in this line.
-  IF (IN_ARRAY($FNAME, $DISPLAY_FORMS) && !$_GET['QFKEY']) {
-
-
-
-
-
-
-      _add_monkey_textfield($form);
-
-      }
-
-}
-
-*/
+?>
