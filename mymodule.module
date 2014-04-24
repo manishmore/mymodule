@@ -23,6 +23,12 @@ function mymodule_menu() {
         'access arguments' => array('access content'),
         'type' => MENU_CALLBACK,
      );
+
+      $items['add/%ctools_js/review'] = array(
+	   'page callback'    => 'mymodule_ctools_modal_review',
+	   'page arguments'   => array(1),
+	   'access arguments' => array('create review content'),
+                  );
     return $items;
    }
 
@@ -31,7 +37,8 @@ function mymodule_menu() {
        */
       function mymodule_civicrm_buildForm($formName, &$form)
       {
-        $form_test = $form->assign('intro_text', ts('hello world'));
+   
+       // $form_test = $form->assign('intro_text', ts('hello world'));
 
         //var_dump($form_test);
          if( $formName == 'CRM_Number_Form_InNumber' )
@@ -68,69 +75,9 @@ function mymodule_menu() {
      * validate form in civicrm
    */
 
-function mymodule_civicrm_validateForm( $formName, &$fields, &$files, &$form, &$errors ) {
 
     /*sample implementation*/
 
-    if( $formName == 'CRM_Mypage_Form_MyForm' ) {
-
-     /*
-      if(empty($fields['favorite_color'])){
-
-        echo "sds44";
-
-       }
-      */
-
-
-       // return true;
-
-    }
-
-    if( $formName == 'CRM_Number_Form_InNumber' ) {
-
-        $externalID = CRM_Utils_Array::value( 'in', $fields );
-        //var_dump($externalID['0']);
-        //die('dfd565');
-        //ctype_digit
-        /*
-        for the characters validation
-        */
-     if(!ctype_alpha($externalID['0'])) {
-         //throw an Exception...
-         $errors['in'] = ts('IN Numbers first two letters should be characters');
-
-        }elseif (!ctype_alpha($externalID['1'])){
-
-            $errors['in'] = ts('IN Numbers second letters should be characters not any number');
-
-        }elseif(isset($externalID['8'])){
-
-          if(!ctype_alpha($externalID['8'])){
-
-          $errors['in'] = ts('IN Numbers nineth letters should be characters not any number');
-
-          }
-        }
-
-        /*
-        end here.
-        */
-
-       /*
-        for( $i =2 ,$i<=8 $i++ ){
-          $externalID["$i"];
-        }*/
-
-           if( ! $externalID ) {
-
-              $errors['in'] = ts( 'IN Number is a required field' );
-
-           }
-        }
-
-    return ;
-  }
 
  /*
  *
@@ -299,10 +246,6 @@ function monkey_civicrm_buildForm($fname, &$form) {
   IF (IN_ARRAY($FNAME, $DISPLAY_FORMS) && !$_GET['QFKEY']) {
 
 
-
-
-
-
       _add_monkey_textfield($form);
 
       }
@@ -310,3 +253,54 @@ function monkey_civicrm_buildForm($fname, &$form) {
 }
 
 */
+	 
+	/**
+          * Implements hook_block_info().
+	*/
+	function example_block_info(){
+	 $blocks['add_review'] = array(
+	   'info' => t('Add review'),
+	 );
+	 return $blocks;
+	}
+ 
+        /**
+        	* Page callback for modal review creation.
+	*/
+ 	function mymodulee_ctools_modal_review($js = FALSE) {
+	 // loading libraries ctools'a
+	 ctools_include('node.pages', 'node', '');
+	 ctools_include('modal');
+	 ctools_include('ajax');
+	 global $user;
+	 $type = 'review';
+	 $node = (object) array(
+	   'uid' => $user->uid, 
+	   'name' => (isset($user->name) ? $user->name : ''), 
+	   'type' => $type, 
+	   'language' => LANGUAGE_NONE);
+	  // Loading node form with disabled scripts.
+	 if (!$js) {
+	   return drupal_get_form($type . '_node_form', $node);
+	 }
+	 // Create array $form_state.
+	 $form_state = array(
+	   'title' => t('Add Review'),
+	   'ajax'  => TRUE,
+	 );
+	 $form_state['build_info']['args'] = array($node);
+	 $output = ctools_modal_form_wrapper($type . '_node_form', $form_state);
+	 // Actions after form submit.
+	 if (!empty($form_state['executed'])) {
+	   $output = array();
+	   // Close pop up.
+	   $output[] = ctools_modal_command_dismiss();
+	   $news_id = arg(3);
+	   // Insert  updated  view into a  page.
+	   if (is_numeric(arg(3))) {
+	     $output[] = ajax_command_html('.latest-reviews-full-style ', views_embed_view('reviews', 'block', arg(3)));
+	   }
+	 }
+	 print ajax_render($output);
+	}
+
