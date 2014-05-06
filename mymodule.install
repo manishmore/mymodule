@@ -1,0 +1,15 @@
+<?php
+// $Id: mymodule.install
+/**
+* Implementation of hook_install()
+*/
+function mymodule_install() {
+  // Set the module weight so it can override other modules.
+}
+/**
+* Implementation of hook_uninstall()
+*/
+function mymodule_uninstall() {
+  // Remove variables which is defined in our module
+}
+?>

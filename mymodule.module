@@ -38,11 +38,23 @@ function mymodule_menu() {
             $vars['type'] ="ul";
             $vars['title'] = "";
             $vars['attributes'] = array("");
-            $vars['items'][0]="<div id='leftCol'><div class='collapseLeft'>Show_2</div><br/><div class='expandLeft'style='display:none' >TEsting Hidde _1</div></div><div id='rightCol'><div class='collapseRight'>Show2</div><div class='expandRight'>Testing Hidde _2</div></div>";
-            $vars['items'][1] = "<div id='leftCol'><a href='#' id='link' onclick='toggle_visibility('foo');' >Click here to toggle visibility of element #foo</a><div id='foo' style='display: none;'>This is foo</div></div><br/><div id='rightCol'><a href='#' onclick='toggle_visibility_div2('foo1');' id='link1'>Click here to toggle visibility of element #foo</a><div id='foo1' style='display: none;'>This is foo NO 2</div></div><br/><div id='Colast'>
-<a href='#' onclick='toggle_visibility_div3('foo2');' id='link2'>Click here to toggle visibility of element #foo</a><div id='foo2' style='display: none;'>This is foo NO 2</div></div>";
+            //$vars['items'][0]="<div id='leftCol'><div class='collapseLeft'>Show_2</div><br/><div class='expandLeft'style='display:none' >TEsting Hidde _1</div></div><div id='rightCol'><div class='collapseRight'>Show2</div><div class='expandRight'>Testing Hidde _2</div></div>";
+            // $vars['items'][0] = '<div id="leftCol"><a href="#" id="link" onclick="toggle_visibility(\'foo\')" >Click here to toggle visibility of element #foo</a><div id="foo" style="display: none;">This is foo</div></div>';
+            $vars['items'][0] = "<div id='leftCol'><a href='#' id='link' onclick='toggle_visibility(foo)' >Click here to toggle visibility of element #foo</a><div id='foo' style='display: none;'>This is foo</div></div><br/><div id='rightCol'><a href='#' onclick='toggle_visibility_div2(foo1)' id='link1'>Click here to toggle visibility of element #foo</a><div id='foo1' style='display: none;'>This is foo NO 2</div></div><br/><div id='Colast'>
+<a href='#' onclick='toggle_visibility_div3(foo2)' id='link2'>Click here to toggle visibility of element #foo</a><div id='foo2' style='display: none;'>This is foo NO 2</div></div>";
+            
             return theme_item_list($vars);
         }
+        
+        
+        function mymodule_theme() {
+			
+			return array(
+				'file' => drupal_get_path('module', 'mymodule') . '/mymodule.tpl.php',
+			  );
+
+            
+    }
 
 
 ?>
