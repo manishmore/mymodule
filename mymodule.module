@@ -8,47 +8,44 @@
 
 function mymodule_menu() {
 
-    $items = array();
+  $items = array();
+  $items['my_module/hello_world'] = array(
+    'title' => 'Cookies  UI accordion',
+    'page callback' => 'say_hello_world',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
 
-    $items['my_module/hello_world'] = array(
-        'title' => 'Cookies  UI accordion',
-        'page callback' => 'say_hello_world',
-        'access arguments' => array('access content'),
-        'type' => MENU_CALLBACK,
-     );
+  $items['my_module/civicrm_buildForm'] = array(
+    'title' => 'build form Test',
+    'page callback' => 'civicrm_buildForm',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
 
-    $items['my_module/civicrm_buildForm'] = array(
-        'title' => 'build form Test',
-        'page callback' => 'civicrm_buildForm',
-        'access arguments' => array('access content'),
-        'type' => MENU_CALLBACK,
-     );
-
-      $items['add/%ctools_js/review'] = array(
-	   'page callback'    => 'mymodule_ctools_modal_review',
-	   'page arguments'   => array(1),
-	   'access arguments' => array('create review content'),
-                  );
-    return $items;
-   }
+  $items['add/%ctools_js/review'] = array(
+    'page callback'    => 'mymodule_ctools_modal_review',
+    'page arguments'   => array(1),
+    'access arguments' => array('create review content'),
+  );
+  return $items;
+}
 
       /**
        * Set a default value for an event price set field.
        */
       function mymodule_civicrm_buildForm($formName, &$form)
       {
-   
-       // $form_test = $form->assign('intro_text', ts('hello world'));
-
+        // $form_test = $form->assign('intro_text', ts('hello world'));
         //var_dump($form_test);
-         if( $formName == 'CRM_Number_Form_InNumber' )
-         {
-           //echo "Text Feild";
-         }
-	 if ($formName == 'CRM_Event_Form_Registration_Register') {
-           if ($form->getAction() == CRM_Core_Action::ADD) {
+        if( $formName == 'CRM_Number_Form_InNumber' )
+          {
+            //echo "Text Feild";
+          }
+        if ($formName == 'CRM_Event_Form_Registration_Register') {
+          if ($form->getAction() == CRM_Core_Action::ADD) {
             $defaults['price_3'] = '710';
-             $form->setDefaults($defaults);
+            $form->setDefaults($defaults);
           }
         }
       }
@@ -60,7 +57,6 @@ function mymodule_menu() {
 
             drupal_add_js(drupal_get_path('module', 'mymodule') . '/jquery.cookie.js');
             drupal_add_js(drupal_get_path('module', 'mymodule') . '/jquery-1.2.3.min.js');
-
             $vars = array();
             $vars['type'] ="ul";
             $vars['title'] = "";
@@ -83,65 +79,47 @@ function mymodule_menu() {
  *Post Process Hook for the form submit call in civicrm
  *
  */
-    function mymodule_civicrm_postProcess( $formName ,&$fields) {
+function mymodule_civicrm_postProcess( $formName ,&$fields) {
 
-       if( $formName == 'CRM_Mypage_Form_MyForm' ) {
+  if( $formName == 'CRM_Mypage_Form_MyForm' ) {
 
-       
-       
-       if( $formName == 'CRM_Number_Form_InNumber' )	{
+    if( $formName == 'CRM_Number_Form_InNumber' )	{
       
-		       	    $inID = $fields->getVar('_submitValues');
+      $inID = $fields->getVar('_submitValues');
 	       		    
-						$in = $fields->getElement('in')->getValue();
+      $in = $fields->getElement('in')->getValue();
 					
-							$entity_id = $fields->getElement('entity_id')->getValue();
+      $entity_id = $fields->getElement('entity_id')->getValue();
 				 
-
-						   $query = "INSERT INTO training_ni ( inno,entity_id  ) VALUES ( '$in','$entity_id' )";
-					  	   
-							 /*	   
-						                 executeQuery	for ni table as ut work for storing new data into table
-								 	             */
-										     	  
-													CRM_Core_DAO::executeQuery( $query );
+      $query = "INSERT INTO training_ni ( inno,entity_id  ) VALUES ( '$in','$entity_id' )";	   
+      /*	   
+               executeQuery	for ni table as ut work for storing new data into table
+      */			     	  
+      CRM_Core_DAO::executeQuery( $query );
 										     
-										              }	
-											      
-          return;									      
-      }	  
+    }	
+    return;									      
+  }	  
 }
-      
-          /*
-          *civicrm_post for storing data into database
-          */
+     /*
+      *civicrm_post for storing data into database
+      */
+     /*
+      *
+      * CRM_Mypage_Page_Tabset
+      */
 
-  function mymodule_civicrm_post($op, $objectName, $objectId, &$objectRef)
-   {
-
-
-
-
-    }
-
-    /*
-    *
-    * CRM_Mypage_Page_Tabset
-    */
-
-
-  function validate_innubers( $ninumbers )
+function validate_innubers( $ninumbers )
   {
-    switch ($i) {
-    case 0:
-        echo "i equals 0";
-        break;
-    case 1:
-        echo "i equals 1";
-        break;
-
-       }
-  }
+      switch ($i) {
+        case 0:
+          echo "i equals 0";
+          break;
+        case 1:
+          echo "i equals 1";
+          break;
+      }
+    }
 
 /*
 function mymodule_civicrm_custom( $formName, $op, $groupID, $entityID, &$params ) {
@@ -153,43 +131,42 @@ function mymodule_civicrm_custom( $formName, $op, $groupID, $entityID, &$params 
           return;
        }
 
-     if ($groupID == 1) {
+       if ($groupID == 1) {
 
-        $needs_update = false;
-        $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
-                                                      $groupID,
-                                                      'table_name' );
+       $needs_update = false;
+       $tableName = CRM_Core_DAO::getFieldValue( 'CRM_Core_DAO_CustomGroup',
+       $groupID,
+       'table_name' );
 
 
-        $sql = "SELECT member_id_4 FROM $tableName WHERE entity_id = $entityID";
-        $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+       $sql = "SELECT member_id_4 FROM $tableName WHERE entity_id = $entityID";
+       $dao = CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
-        if (! $dao->fetch()) {
+       if (! $dao->fetch()) {
 
-            $needs_update = true;
+       $needs_update = true;
 
-        }
+       }
 
-        // Value may also be empty. i.e. delete the value in the interface to reset the field.
-        if (! $dao->member_id_4) {
+       // Value may also be empty. i.e. delete the value in the interface to reset the field.
+       if (! $dao->member_id_4) {
 
-            $needs_update = true;
+       $needs_update = true;
 
-        }
+       }
 
-        if ($needs_update) {
+       if ($needs_update) {
 
-                $member_id = date('Y') . sprintf('%07d', $entityID);
+       $member_id = date('Y') . sprintf('%07d', $entityID);
 
-                $sql = "UPDATE $tableName SET member_id_4 = $member_id WHERE entity_id = $entityID";
-                CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
+       $sql = "UPDATE $tableName SET member_id_4 = $member_id WHERE entity_id = $entityID";
+       CRM_Core_DAO::executeQuery( $sql, CRM_Core_DAO::$_nullArray );
 
-          }
-      }
+       }
+       }
 
     }
   }*/
-
 	 
 	/**
           * Implements hook_block_info().
