@@ -5,166 +5,155 @@
 * menu call for url call back as module identification
 *
 */
+function mymodule_menu() {
 
-		function mymodule_menu() {
+	$items = array();
+	$items['my_module/hello_world'] = array(
+			'title' => 'Cookies  UI accordion',
+			'page callback' => 'say_hello_world',
+			'access arguments' => array('access content'),
+			'type' => MENU_CALLBACK,
+	);
 
-				$items = array();
-				$items['my_module/hello_world'] = array(
-						'title' => 'Cookies  UI accordion',
-						'page callback' => 'say_hello_world',
-						'access arguments' => array('access content'),
-						'type' => MENU_CALLBACK,
-				);
+	$items['my_module/civicrm_buildForm'] = array(
+			'title' => 'build form Test',
+			'page callback' => 'civicrm_buildForm',
+			'access arguments' => array('access content'),
+			'type' => MENU_CALLBACK,
+	);
 
-				$items['my_module/civicrm_buildForm'] = array(
-						'title' => 'build form Test',
-						'page callback' => 'civicrm_buildForm',
-						'access arguments' => array('access content'),
-						'type' => MENU_CALLBACK,
-				);
+	$items['add/%ctools_js/review'] = array(
+			'page callback'    => 'mymodule_ctools_modal_review',
+			'page arguments'   => array(1),
+			'access arguments' => array('create review content'),
+	);
+    $items['my_module/search'] = array(
+			'title' => 'validation error message',
+			'description' => 'Halaman pencarian kb',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('mymodule_form'),
+			'access arguments' => array('access content'),
+			'type' => MENU_NORMAL_ITEM,
+    );
 
-				$items['add/%ctools_js/review'] = array(
-						'page callback'    => 'mymodule_ctools_modal_review',
-						'page arguments'   => array(1),
-						'access arguments' => array('create review content'),
-				);
-				
-				$items['my_module/search'] = array(
-    'title' => 'validation error message',
-    'description' => 'Halaman pencarian kb',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('mymodule_form'),
-    'access arguments' => array('access content'),
-    'type' => MENU_NORMAL_ITEM,
-  );
-				
-				return $items;
-		}
+    return $items;
+}
 
-			/**
-				* Set a default value for an event price set field.
-				*/
-			function mymodule_civicrm_buildForm($formName, &$form) {
-					// $form_test = $form->assign('intro_text', ts('hello world'));
-					//var_dump($form_test);
-					if( $formName == 'CRM_Number_Form_InNumber' )
-							{
-									//echo "Text Feild";
-							}
-					if ($formName == 'CRM_Event_Form_Registration_Register') {
-							if ($form->getAction() == CRM_Core_Action::ADD) {
-									$defaults['price_3'] = '710';
-									$form->setDefaults($defaults);
-							}
-					}
-			}
-				/*
-				*menu url call back Url hello_world
-				*
-				*/
-				function say_hello_world() {
+/**
+* Set a default value for an event price set field.
+*/
+function mymodule_civicrm_buildForm($formName, &$form) {
+    if( $formName == 'CRM_Number_Form_InNumber') {
+      echo "Text Feild";
+    }
+    if ($formName == 'CRM_Event_Form_Registration_Register') {
+       if ($form->getAction() == CRM_Core_Action::ADD) {
+          $defaults['price_3'] = '710';
+          $form->setDefaults($defaults);
+       }
+    }
+}
 
-								drupal_add_js(drupal_get_path('module', 'mymodule') . '/jquery.cookie.js');
-								drupal_add_js(drupal_get_path('module', 'mymodule') . '/jquery-1.2.3.min.js');
-								$vars = array();
-								$vars['type'] ="ul";
-								$vars['title'] = "";
-								$vars['attributes'] = array("");
-								$vars['items'][0]="<div id='leftCol'><div class='collapseLeft'>Show_2</div><div class='expandLeft'style='display:none' >TEsting Hidde _1</div></div><div id='rightCol'><div class='collapseRight'>Show2</div><div class='expandRight'>Testing Hidde _2</div></div>";
-								$vars['items'][1] = "<div id='leftCol'><a href='#' id='link' onclick='toggle_visibility('foo');' >Click here to toggle visibility of element #foo</a><div id='foo' style='display: none;'>This is foo</div></div><br/><div id='rightCol'><a href='#' onclick='toggle_visibility_div2('foo1');' id='link1'>Click here to toggle visibility of element #foo</a><div id='foo1' style='display: none;'>This is foo NO 2</div></div><br/><div id='Colast'>
-<a href='#' onclick='toggle_visibility_div3('foo2');' id='link2'>Click here to toggle visibility of element #foo</a><div id='foo2' style='display: none;'>This is foo NO 2</div></div>";
-								return theme_item_list($vars);
-				}
-		/*
-				*
-				* validate form in civicrm
-		*/
-			//sample implementation
-		/*
-		*
-		*Post Process Hook for the form submit call in civicrm
-		*
-		*/
-		function mymodule_civicrm_postProcess( $formName ,&$fields) {
+/*
+*menu url call back Url hello_world
+*
+*/
+function say_hello_world() {
 
-			if( $formName == 'CRM_Mypage_Form_MyForm' ) {
+	drupal_add_js(drupal_get_path('module', 'mymodule') . '/jquery.cookie.js');
+	drupal_add_js(drupal_get_path('module', 'mymodule') . '/jquery-1.2.3.min.js');
+	$vars = array();
+	$vars['type'] ="ul";
+	$vars['title'] = "";
+	$vars['attributes'] = array("");
+	$vars['items'][0]="<div id='leftCol'><div class='collapseLeft'>Show_2</div><div class='expandLeft'style='display:none' >TEsting Hidde _1</div></div><div id='rightCol'><div class='collapseRight'>Show2</div><div class='expandRight'>Testing Hidde _2</div></div>";
+	$vars['items'][1] = "<div id='leftCol'><a href='#' id='link' onclick='toggle_visibility('foo');' >Click here to toggle visibility of element #foo</a><div id='foo' style='display: none;'>This is foo</div></div><br/><div id='rightCol'><a href='#' onclick='toggle_visibility_div2('foo1');' id='link1'>Click here to toggle visibility of element #foo</a><div id='foo1' style='display: none;'>This is foo NO 2</div></div><br/><div id='Colast'>
+	<a href='#' onclick='toggle_visibility_div3('foo2');' id='link2'>Click here to toggle visibility of element #foo</a><div id='foo2' style='display: none;'>This is foo NO 2</div></div>";
 
-					if( $formName == 'CRM_Number_Form_InNumber' )	{
-							
-							$inID = $fields->getVar('_submitValues');
-															
-							$in = $fields->getElement('in')->getValue();
-						
-							$entity_id = $fields->getElement('entity_id')->getValue();
-						
-							$query = "INSERT INTO training_ni ( inno,entity_id  ) VALUES ( '$in','$entity_id' )";	   
-							/*	   
-																executeQuery	for ni table as ut work for storing new data into table
-							*/			     	  
-							CRM_Core_DAO::executeQuery( $query );
-																
-					}	
-					return;									      
-			}	  
-		}
-		
-		/*
-			*civicrm_post for storing data into database
-			*/
-		/*
-			*
-			* CRM_Mypage_Page_Tabset
-			*/
-		function validate_innubers( $ninumbers ) 
-		{
-								switch ($i) {
-										case 0:
-												echo "i equals 0";
-												break;
-										case 1:
-												echo "i equals 1";
-												break;
-								}
-		}
-     
-	/**
- * Implements hook_block_info().
-	*/
-		function example_block_info()
-		{
-	  $blocks['add_review'] = array(
-	    'info' => t('Add review'),
-	  );
-	  return $blocks;
-	 }
-	 
-	 /**
+	return theme_item_list($vars);
+}
+
+/*
+*
+* validate form in civicrm.
+*
+*Post Process Hook for the form submit call in civicrm.
+*/
+function mymodule_civicrm_postProcess( $formName ,&$fields) {
+
+	if($formName == 'CRM_Mypage_Form_MyForm') {
+	  if($formName == 'CRM_Number_Form_InNumber')	{
+
+		$inID = $fields->getVar('_submitValues');
+		$in = $fields->getElement('in')->getValue();
+		$entity_id = $fields->getElement('entity_id')->getValue();
+		$query = "INSERT INTO training_ni ( inno,entity_id  ) VALUES ( '$in','$entity_id' )";
+		//executeQuery	for ni table as ut work for storing new data into table.
+		CRM_Core_DAO::executeQuery($query);
+	  }
+	return;
+    }
+}
+
+/*
+*civicrm_post for storing data into database
+*/
+/*
+*
+* CRM_Mypage_Page_Tabset
+*/
+function validate_innubers( $ninumbers ) {
+
+	switch ($i) {
+		case 0:
+			echo "i equals 0";
+		break;
+		case 1:
+			echo "i equals 1";
+		break;
+	}
+}
+
+/**
+* Implements hook_block_info().
+*/
+function example_block_info() {
+
+  $blocks['add_review'] = array(
+	'info' => t('Add review'),
+	);
+
+return $blocks;
+}
+
+ /**
 * Implements hook_form() mymodule_form().
 */
- 
- function mymodule_form($form, &$form_state) {
 
-  $form['title'] = array(
+function mymodule_form($form, &$form_state) {
+
+    $form['title'] = array(
     '#type' => 'textfield',
     '#title' => 'Title',
     '#maxlength' => 128,
-  ); 
+  );
 
    $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Save',
    );
    return $form;
- } 
- 
- function mymodule_validate(&$form_state, $form) {
-   $values = $form_state['values'];
-			foreach ($values as $key => $value) {
-			   if (isset($form_state['values'][$key]) && $form_state['values'][$key] != filter_xss($form_state['values'][$key])) {
-											form_set_error($key, t('Field contains invalid content.').$key);
-					 }
- 		}
-} 
- 
+}
 
+/*
+*
+*/
+function mymodule_validate(&$form_state, $form) {
+    $values = $form_state['values'];
+    foreach ($values as $key => $value) {
+      if (isset($form_state['values'][$key]) && $form_state['values'][$key] != filter_xss($form_state['values'][$key])) {
+         form_set_error($key, t('Field contains invalid content.').$key);
+      }
+    }
+}
 ?>
