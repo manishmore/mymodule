@@ -111,7 +111,7 @@ function mymodule_civicrm_postProcess( $formName ,&$fields) {
 *
 * CRM_Mypage_Page_Tabset
 */
-function validate_innubers( $ninumbers ) {
+function validate_innubers($ninumbers) {
 
   switch ($i) {
     case 0:
@@ -129,9 +129,8 @@ function validate_innubers( $ninumbers ) {
 function example_block_info() {
 
     $blocks['add_review'] = array(
-    'info' => t('Add review'),
+     'info' => t('Add review'),
     );
-
 return $blocks;
 }
 
@@ -169,7 +168,7 @@ function mymodule_validate(&$form_state, $form) {
 *custom funtion for ajax page.
 */
 function mymodule_ajaxpage($form, &$form_state) {
-   // Get the list of options to populate the first dropdown.
+    // Get the list of options to populate the first dropdown.
     $options_first = mymodule_first_dropdown_options();
 
     // If we have a value for the first dropdown from $form_state['values'] we use
@@ -226,6 +225,20 @@ function mymodule_ajax_callback($form, $form_state) {
 }
 
 /**
+ * Helper function to populate the first dropdown. This would normally be
+ * pulling data from the database.
+ *
+ * @return array of options
+ */
+function mymodule_first_dropdown_options() {
+    return array(
+        'colors' => 'Names of colors',
+        'cities' => 'Names of cities',
+        'animals' => 'Names of animals',
+    );
+}
+
+/**
  * Helper function to populate the second dropdown. This would normally be
  * pulling data from the database.
  *
@@ -253,8 +266,8 @@ function mymodule_second_dropdown_options($key = '') {
     );
     if (isset($options[$key])) {
         return $options[$key];
-    }
-    else {
+    } else
+     {
         return array();
     }
 }
